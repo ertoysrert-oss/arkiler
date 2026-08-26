@@ -670,8 +670,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-const sidebarProfile =
-    document.getElementById("sidebarProfile");
+// =========================
+// PROFILE PAGE
+// =========================
 
 const sidebarProfile =
     document.getElementById("sidebarProfile");
@@ -689,12 +690,20 @@ if (sidebarProfile) {
             document.getElementById("profilePage");
 
         if (!appShell || !profilePage) {
+            console.error("Profil bölümü bulunamadı.");
             return;
         }
 
         appShell.style.display = "none";
 
+        profilePage.style.display = "block";
+
         profilePage.classList.add("show");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
 
     });
 
