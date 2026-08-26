@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ARKİLER — Sosyal Medya</title>
-    <meta name="description" content="ARKİLER — Paylaş, keşfet ve bağlantı kur.">
+    <title>ARKİLER</title>
+    <meta name="description" content="ARKİLER — İnsanların buluştuğu sosyal platform.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,30 +20,30 @@
 
     <div class="topbar-inner">
 
-        <a href="#" class="logo">ARKİLER</a>
+        <a href="#" class="brand">
+            <span class="brand-mark">A</span>
+            <span>ARKİLER</span>
+        </a>
 
-        <div class="search-box">
-            <span>⌕</span>
-            <input type="text" placeholder="Arkiler'de ara...">
+        <div class="global-search">
+            <span class="search-icon">⌕</span>
+            <input type="text" placeholder="Arkiler'de ara">
         </div>
 
-        <div class="top-actions">
+        <div class="top-right">
 
-            <button class="icon-button" title="Bildirimler">
+            <button class="top-icon" aria-label="Bildirimler">
                 ♡
+                <i></i>
             </button>
 
-            <button class="icon-button" title="Mesajlar">
+            <button class="top-icon" aria-label="Mesajlar">
                 ◌
             </button>
 
-            <button class="login-button">
-                Giriş Yap
-            </button>
-
-            <button class="signup-button">
-                Katıl
-            </button>
+            <div class="top-avatar">
+                ?
+            </div>
 
         </div>
 
@@ -48,247 +52,346 @@
 </header>
 
 
-<div class="page">
+<div class="app-shell">
 
-    <!-- SOL MENÜ -->
+    <!-- SIDEBAR -->
 
-    <aside class="left-sidebar">
+    <aside class="sidebar">
 
-        <nav class="main-nav">
+        <nav>
 
-            <a href="#" class="nav-item active">
-                <span>⌂</span>
-                <strong>Ana Sayfa</strong>
+            <a href="#" class="sidebar-link active">
+                <span class="nav-icon">⌂</span>
+                <span>Ana Sayfa</span>
             </a>
 
-            <a href="#" class="nav-item">
-                <span>⌕</span>
-                <strong>Keşfet</strong>
+            <a href="#" class="sidebar-link">
+                <span class="nav-icon">⌕</span>
+                <span>Keşfet</span>
             </a>
 
-            <a href="#" class="nav-item">
-                <span>＋</span>
-                <strong>Gönderi Oluştur</strong>
+            <a href="#" class="sidebar-link">
+                <span class="nav-icon">♡</span>
+                <span>Bildirimler</span>
             </a>
 
-            <a href="#" class="nav-item">
-                <span>♡</span>
-                <strong>Bildirimler</strong>
+            <a href="#" class="sidebar-link">
+                <span class="nav-icon">◌</span>
+                <span>Mesajlar</span>
             </a>
 
-            <a href="#" class="nav-item">
-                <span>◌</span>
-                <strong>Mesajlar</strong>
-            </a>
-
-            <a href="#" class="nav-item">
-                <span>◎</span>
-                <strong>Profil</strong>
+            <a href="#" class="sidebar-link">
+                <span class="nav-icon">◎</span>
+                <span>Profil</span>
             </a>
 
         </nav>
 
 
-        <div class="sidebar-bottom">
+        <button class="new-post-button">
+            <span>＋</span>
+            <strong>Gönderi oluştur</strong>
+        </button>
+
+
+        <div class="sidebar-footer">
 
             <a href="#">Ayarlar</a>
             <a href="#">Yardım</a>
+            <a href="#">Gizlilik</a>
+
+            <p>© 2026 ARKİLER</p>
 
         </div>
 
     </aside>
 
 
-    <!-- ANA AKIŞ -->
+    <!-- MAIN FEED -->
 
     <main class="feed">
 
-        <div class="feed-header">
+        <div class="feed-top">
 
             <div>
                 <h1>Ana Sayfa</h1>
-                <p>Senin için yeni paylaşımlar</p>
+                <p>Takip ettiğin kişilerden yeni paylaşımlar</p>
             </div>
 
-            <button class="filter-button">
-                En Yeni
+            <button class="feed-filter">
+                En yeni
+                <span>⌄</span>
             </button>
 
         </div>
 
 
-        <!-- HIZLI GÖNDERİ -->
+        <!-- STORIES -->
 
-        <section class="create-post">
+        <section class="stories">
 
-            <div class="user-avatar">
-                ?
+            <div class="story add-story">
+
+                <div class="story-avatar add-avatar">
+                    ＋
+                </div>
+
+                <span>Hikâyen</span>
+
             </div>
 
-            <div class="create-content">
 
-                <input
-                    type="text"
-                    placeholder="Bugün ne paylaşmak istiyorsun?"
-                >
+            <div class="story">
 
-                <div class="create-bottom">
-
-                    <div class="create-tools">
-
-                        <button>▧ Fotoğraf</button>
-                        <button>▶ Video</button>
-                        <button>☷ Anket</button>
-
+                <div class="story-ring">
+                    <div class="story-avatar avatar-1">
+                        E
                     </div>
-
-                    <button class="post-button">
-                        Paylaş
-                    </button>
-
                 </div>
+
+                <span>Efe</span>
+
+            </div>
+
+
+            <div class="story">
+
+                <div class="story-ring">
+                    <div class="story-avatar avatar-2">
+                        M
+                    </div>
+                </div>
+
+                <span>Melis</span>
+
+            </div>
+
+
+            <div class="story">
+
+                <div class="story-ring">
+                    <div class="story-avatar avatar-3">
+                        S
+                    </div>
+                </div>
+
+                <span>Selin</span>
+
+            </div>
+
+
+            <div class="story">
+
+                <div class="story-ring">
+                    <div class="story-avatar avatar-4">
+                        K
+                    </div>
+                </div>
+
+                <span>Kaan</span>
 
             </div>
 
         </section>
 
 
-        <!-- GÖNDERİ 1 -->
+        <!-- COMPOSER -->
+
+        <section class="composer">
+
+            <div class="composer-top">
+
+                <div class="profile-avatar">
+                    ?
+                </div>
+
+                <button class="composer-input">
+                    Ne paylaşmak istiyorsun?
+                </button>
+
+            </div>
+
+
+            <div class="composer-bottom">
+
+                <div class="composer-tools">
+
+                    <button class="tool photo">
+                        <span>▧</span>
+                        Fotoğraf
+                    </button>
+
+                    <button class="tool video">
+                        <span>▶</span>
+                        Video
+                    </button>
+
+                    <button class="tool poll">
+                        <span>☷</span>
+                        Anket
+                    </button>
+
+                </div>
+
+                <button class="publish-button">
+                    Paylaş
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- POST -->
 
         <article class="post">
 
-            <div class="post-top">
+            <div class="post-header">
 
-                <div class="avatar avatar-blue">
+                <div class="post-avatar avatar-1">
                     E
                 </div>
 
-                <div class="post-user">
+                <div class="post-author">
 
                     <strong>Efe Yılmaz</strong>
 
-                    <span>@efeyilmaz · 12 dk</span>
+                    <span>@efeyilmaz · 18 dk</span>
 
                 </div>
 
-                <button class="more-button">
+                <button class="post-menu">
                     ···
                 </button>
 
             </div>
 
 
-            <div class="post-text">
+            <div class="post-body">
 
                 <p>
-                    Bugün gerçekten güzel bir gün. 
-                    Bazen küçük şeylerin bile insanın
-                    modunu değiştirmeye yettiğini fark ediyorum.
+                    Bazen günün en güzel anları planlamadığımız
+                    anlar oluyor. Bugün biraz şehirden uzaklaşıp
+                    nefes aldım.
                 </p>
 
             </div>
 
 
-            <div class="post-image image-one">
-                <span>ARKİLER</span>
+            <div class="post-photo">
+
+                <div class="photo-overlay">
+                    <span>Günün içinden</span>
+                </div>
+
             </div>
 
 
-            <div class="post-stats">
-                <span>❤️ 128</span>
-                <span>34 yorum</span>
+            <div class="post-meta">
+
+                <div>
+                    <span class="liked">♥</span>
+                    <span>248</span>
+                </div>
+
+                <span>36 yorum</span>
+
             </div>
 
 
             <div class="post-actions">
 
-                <button>♡ <span>Beğen</span></button>
+                <button class="action like-action">
+                    <span>♡</span>
+                    Beğen
+                </button>
 
-                <button>◯ <span>Yorum</span></button>
+                <button class="action">
+                    <span>◯</span>
+                    Yorum
+                </button>
 
-                <button>↗ <span>Paylaş</span></button>
+                <button class="action">
+                    <span>↗</span>
+                    Paylaş
+                </button>
 
-                <button>🔖</button>
+                <button class="action save-action">
+                    <span>⌑</span>
+                </button>
 
             </div>
 
         </article>
 
 
-        <!-- GÖNDERİ 2 -->
+        <!-- POST 2 -->
 
         <article class="post">
 
-            <div class="post-top">
+            <div class="post-header">
 
-                <div class="avatar avatar-purple">
+                <div class="post-avatar avatar-2">
                     M
                 </div>
 
-                <div class="post-user">
+                <div class="post-author">
 
                     <strong>Melis Kaya</strong>
 
-                    <span>@meliskaya · 38 dk</span>
+                    <span>@meliskaya · 42 dk</span>
 
                 </div>
 
-                <button class="more-button">
+                <button class="post-menu">
                     ···
                 </button>
 
             </div>
 
 
-            <div class="post-text">
+            <div class="post-body">
 
                 <p>
-                    Sizce bir şehri yaşamak için en güzel
-                    şehir yapan şey nedir? 🌍
+                    Yeni bir haftaya başlamadan önce kendime
+                    küçük bir kahve molası. ☕
                 </p>
 
             </div>
 
 
-            <div class="poll">
+            <div class="post-meta">
 
-                <div class="poll-title">
-                    Bir şehirde sizin için en önemli şey?
+                <div>
+                    <span class="liked">♥</span>
+                    <span>94</span>
                 </div>
 
-                <button>
-                    🌆 Atmosfer
-                    <span>42%</span>
-                </button>
+                <span>12 yorum</span>
 
-                <button>
-                    🍽️ Yemek kültürü
-                    <span>27%</span>
-                </button>
-
-                <button>
-                    👥 İnsanlar
-                    <span>31%</span>
-                </button>
-
-            </div>
-
-
-            <div class="post-stats">
-                <span>❤️ 76</span>
-                <span>19 yorum</span>
             </div>
 
 
             <div class="post-actions">
 
-                <button>♡ <span>Beğen</span></button>
+                <button class="action like-action">
+                    <span>♡</span>
+                    Beğen
+                </button>
 
-                <button>◯ <span>Yorum</span></button>
+                <button class="action">
+                    <span>◯</span>
+                    Yorum
+                </button>
 
-                <button>↗ <span>Paylaş</span></button>
+                <button class="action">
+                    <span>↗</span>
+                    Paylaş
+                </button>
 
-                <button>🔖</button>
+                <button class="action">
+                    <span>⌑</span>
+                </button>
 
             </div>
 
@@ -297,132 +400,150 @@
     </main>
 
 
-    <!-- SAĞ PANEL -->
+    <!-- RIGHT COLUMN -->
 
-    <aside class="right-sidebar">
-
-
-        <section class="side-card">
-
-            <h2>Gündem</h2>
-
-            <div class="trend">
-
-                <span>Türkiye · Gündem</span>
-
-                <strong>#Arkiler</strong>
-
-                <small>12,4 B gönderi</small>
-
-            </div>
+    <aside class="right-column">
 
 
-            <div class="trend">
+        <section class="right-card profile-card">
 
-                <span>Teknoloji · Popüler</span>
+            <div class="mini-profile">
 
-                <strong>#YapayZeka</strong>
+                <div class="large-avatar">
+                    ?
+                </div>
 
-                <small>8,7 B gönderi</small>
+                <div>
+                    <strong>ARKİLER'e hoş geldin</strong>
+                    <span>Topluluğa katıl ve paylaşmaya başla.</span>
+                </div>
 
             </div>
 
-
-            <div class="trend">
-
-                <span>Gündem · Bugün</span>
-
-                <strong>#BugünNeYaptın</strong>
-
-                <small>5,2 B gönderi</small>
-
-            </div>
-
-
-            <button class="show-more">
-                Daha fazlasını göster
+            <button class="start-button">
+                Profilini oluştur
             </button>
 
         </section>
 
 
-        <section class="side-card">
+        <section class="right-card">
 
-            <h2>Takip edebileceğin kişiler</h2>
+            <div class="card-title">
+                <h2>Gündem</h2>
+                <button>•••</button>
+            </div>
 
 
-            <div class="suggestion">
+            <div class="trend">
 
-                <div class="avatar avatar-green">
-                    A
-                </div>
+                <small>Gündem · Türkiye</small>
+                <strong>#Arkiler</strong>
+                <span>12,4 B gönderi</span>
 
-                <div class="suggestion-info">
+            </div>
 
-                    <strong>Ahmet Demir</strong>
-                    <span>@ahmetdemir</span>
 
-                </div>
+            <div class="trend">
 
-                <button>
-                    Takip
-                </button>
+                <small>Teknoloji · Popüler</small>
+                <strong>#YapayZeka</strong>
+                <span>8,7 B gönderi</span>
+
+            </div>
+
+
+            <div class="trend">
+
+                <small>Gündem · Bugün</small>
+                <strong>#BugünNeYaptın</strong>
+                <span>5,2 B gönderi</span>
+
+            </div>
+
+
+            <button class="all-trends">
+                Tüm gündemi gör
+            </button>
+
+        </section>
+
+
+        <section class="right-card">
+
+            <div class="card-title">
+
+                <h2>Önerilenler</h2>
+
+                <button>•••</button>
 
             </div>
 
 
             <div class="suggestion">
 
-                <div class="avatar avatar-orange">
+                <div class="suggest-avatar avatar-3">
                     S
                 </div>
 
-                <div class="suggestion-info">
+                <div class="suggest-info">
 
                     <strong>Selin Aras</strong>
                     <span>@selinaras</span>
 
                 </div>
 
-                <button>
-                    Takip
-                </button>
+                <button>Takip</button>
 
             </div>
 
 
             <div class="suggestion">
 
-                <div class="avatar avatar-pink">
+                <div class="suggest-avatar avatar-4">
                     K
                 </div>
 
-                <div class="suggestion-info">
+                <div class="suggest-info">
 
                     <strong>Kaan Yıldız</strong>
                     <span>@kaanyildiz</span>
 
                 </div>
 
-                <button>
-                    Takip
-                </button>
+                <button>Takip</button>
+
+            </div>
+
+
+            <div class="suggestion">
+
+                <div class="suggest-avatar avatar-5">
+                    A
+                </div>
+
+                <div class="suggest-info">
+
+                    <strong>Ahmet Demir</strong>
+                    <span>@ahmetdemir</span>
+
+                </div>
+
+                <button>Takip</button>
 
             </div>
 
         </section>
 
 
-        <footer class="footer">
+        <div class="legal">
 
             <a href="#">Hakkımızda</a>
-            <a href="#">Gizlilik</a>
             <a href="#">Koşullar</a>
-            <a href="#">İletişim</a>
+            <a href="#">Gizlilik</a>
+            <a href="#">Çerezler</a>
 
-            <p>© 2026 ARKİLER</p>
-
-        </footer>
+        </div>
 
     </aside>
 
