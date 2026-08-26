@@ -669,3 +669,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+const sidebarProfile =
+    document.getElementById("sidebarProfile");
+
+if (sidebarProfile) {
+
+    sidebarProfile.addEventListener("click", event => {
+
+        event.preventDefault();
+
+        alert("Profil sayfasını oluşturuyoruz.");
+
+    });
+
+}
