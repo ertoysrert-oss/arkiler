@@ -708,3 +708,38 @@ if (sidebarProfile) {
     });
 
 }
+
+// =========================
+// PROFILE CLICK OVERRIDE
+// =========================
+
+document.addEventListener("click", function (event) {
+
+    const profileLink = event.target.closest("#sidebarProfile");
+
+    if (!profileLink) {
+        return;
+    }
+
+    // Eski profil tıklama kodlarını engelle
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const appShell = document.querySelector(".app-shell");
+    const profilePage = document.getElementById("profilePage");
+
+    if (!profilePage) {
+        console.error("profilePage bulunamadı.");
+        return;
+    }
+
+    if (appShell) {
+        appShell.style.display = "none";
+    }
+
+    profilePage.style.display = "block";
+    profilePage.classList.add("show");
+
+    window.scrollTo(0, 0);
+
+}, true);
