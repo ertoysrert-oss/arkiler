@@ -673,13 +673,28 @@ document.addEventListener("DOMContentLoaded", () => {
 const sidebarProfile =
     document.getElementById("sidebarProfile");
 
+const sidebarProfile =
+    document.getElementById("sidebarProfile");
+
 if (sidebarProfile) {
 
     sidebarProfile.addEventListener("click", event => {
 
         event.preventDefault();
 
-        alert("Profil sayfasını oluşturuyoruz.");
+        const appShell =
+            document.querySelector(".app-shell");
+
+        const profilePage =
+            document.getElementById("profilePage");
+
+        if (!appShell || !profilePage) {
+            return;
+        }
+
+        appShell.style.display = "none";
+
+        profilePage.classList.add("show");
 
     });
 
