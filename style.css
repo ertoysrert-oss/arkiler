@@ -1528,3 +1528,28 @@ a {
 .signup-button:hover {
     opacity: .9;
 }
+
+.logged-user {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555c66;
+    margin-right: 4px;
+}
+
+.profile-button,
+.logout-button {
+    border-radius: 8px;
+    padding: 9px 13px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.profile-button {
+    background: #f1f2f5;
+    color: #343840;
+}
+
+.logout-button {
+    background: #15171a;
+    color: white;
+}
