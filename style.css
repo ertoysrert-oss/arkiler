@@ -1502,3 +1502,29 @@ a {
 .hidden {
     display: none;
 }
+
+.login-button {
+    background: transparent;
+    color: #555c66;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 9px 13px;
+    border-radius: 8px;
+}
+
+.login-button:hover {
+    background: #f3f4f6;
+}
+
+.signup-button {
+    background: var(--brand);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.signup-button:hover {
+    opacity: .9;
+}
