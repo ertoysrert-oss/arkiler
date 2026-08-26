@@ -16,32 +16,23 @@ serverTimestamp
 
 document.addEventListener("DOMContentLoaded", () => {
 
-```
+
 // ==================================================
 // ELEMENTLER
 // ==================================================
 
-const authOverlay =
-    document.getElementById("authOverlay");
+const authOverlay = document.getElementById("authOverlay");
+const authClose = document.getElementById("authClose");
 
-const authClose =
-    document.getElementById("authClose");
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
 
-const loginForm =
-    document.getElementById("loginForm");
-
-const registerForm =
-    document.getElementById("registerForm");
-
-const loginTopButton =
-    document.querySelector(".login-button");
-
-const signupTopButton =
-    document.querySelector(".signup-button");
+const loginTopButton = document.querySelector(".login-button");
+const signupTopButton = document.querySelector(".signup-button");
 
 
 // ==================================================
-// LOGIN MODAL
+// LOGIN
 // ==================================================
 
 function openLogin() {
@@ -51,7 +42,6 @@ function openLogin() {
     }
 
     loginForm.classList.remove("hidden");
-
     registerForm.classList.add("hidden");
 
     authOverlay.classList.add("show");
@@ -59,7 +49,7 @@ function openLogin() {
 
 
 // ==================================================
-// REGISTER MODAL
+// REGISTER
 // ==================================================
 
 function openRegister() {
@@ -69,7 +59,6 @@ function openRegister() {
     }
 
     loginForm.classList.add("hidden");
-
     registerForm.classList.remove("hidden");
 
     authOverlay.classList.add("show");
@@ -77,26 +66,15 @@ function openRegister() {
 
 
 // ==================================================
-// ÜST BUTONLAR
+// ÜST GİRİŞ / KAYIT BUTONLARI
 // ==================================================
 
 if (loginTopButton) {
-
-    loginTopButton.addEventListener(
-        "click",
-        openLogin
-    );
-
+    loginTopButton.addEventListener("click", openLogin);
 }
 
-
 if (signupTopButton) {
-
-    signupTopButton.addEventListener(
-        "click",
-        openRegister
-    );
-
+    signupTopButton.addEventListener("click", openRegister);
 }
 
 
@@ -106,32 +84,26 @@ if (signupTopButton) {
 
 if (authClose) {
 
-    authClose.addEventListener(
-        "click",
-        () => {
+    authClose.addEventListener("click", () => {
 
+        if (authOverlay) {
             authOverlay.classList.remove("show");
-
         }
-    );
+
+    });
 
 }
 
 
 if (authOverlay) {
 
-    authOverlay.addEventListener(
-        "click",
-        event => {
+    authOverlay.addEventListener("click", event => {
 
-            if (event.target === authOverlay) {
-
-                authOverlay.classList.remove("show");
-
-            }
-
+        if (event.target === authOverlay) {
+            authOverlay.classList.remove("show");
         }
-    );
+
+    });
 
 }
 
@@ -140,30 +112,17 @@ if (authOverlay) {
 // LOGIN / REGISTER GEÇİŞ
 // ==================================================
 
-const showRegister =
-    document.getElementById("showRegister");
-
-const showLogin =
-    document.getElementById("showLogin");
+const showRegister = document.getElementById("showRegister");
+const showLogin = document.getElementById("showLogin");
 
 
 if (showRegister) {
-
-    showRegister.addEventListener(
-        "click",
-        openRegister
-    );
-
+    showRegister.addEventListener("click", openRegister);
 }
 
 
 if (showLogin) {
-
-    showLogin.addEventListener(
-        "click",
-        openLogin
-    );
-
+    showLogin.addEventListener("click", openLogin);
 }
 
 
@@ -177,188 +136,148 @@ const registerButton =
 
 if (registerButton) {
 
-    registerButton.addEventListener(
-        "click",
-        async () => {
+    registerButton.addEventListener("click", async () => {
 
-            const username =
-                document
-                    .getElementById("registerUsername")
-                    .value
-                    .trim();
+        const username =
+            document.getElementById("registerUsername")
+                ?.value.trim();
 
-            const email =
-                document
-                    .getElementById("registerEmail")
-                    .value
-                    .trim();
+        const email =
+            document.getElementById("registerEmail")
+                ?.value.trim();
 
-            const password =
-                document
-                    .getElementById("registerPassword")
-                    .value;
+        const password =
+            document.getElementById("registerPassword")
+                ?.value;
 
-            const message =
-                document.getElementById("registerMessage");
+        const message =
+            document.getElementById("registerMessage");
 
 
-            if (!username) {
+        if (!username) {
 
-                message.style.color = "#d14b58";
+            message.textContent =
+                "Kullanıcı adı gir.";
 
-                message.textContent =
-                    "Kullanıcı adı gir.";
+            message.style.color =
+                "#d14b58";
 
-                return;
-            }
-
-
-            if (!email) {
-
-                message.style.color = "#d14b58";
-
-                message.textContent =
-                    "E-posta adresi gir.";
-
-                return;
-            }
+            return;
+        }
 
 
-            if (password.length < 6) {
+        if (!email) {
 
-                message.style.color = "#d14b58";
+            message.textContent =
+                "E-posta adresi gir.";
 
-                message.textContent =
-                    "Şifre en az 6 karakter olmalı.";
+            message.style.color =
+                "#d14b58";
 
-                return;
-            }
-
-
-            try {
-
-                registerButton.disabled = true;
-
-                registerButton.textContent =
-                    "Oluşturuluyor...";
+            return;
+        }
 
 
-                const result =
-                    await createUserWithEmailAndPassword(
-                        auth,
-                        email,
-                        password
-                    );
+        if (!password || password.length < 6) {
+
+            message.textContent =
+                "Şifre en az 6 karakter olmalı.";
+
+            message.style.color =
+                "#d14b58";
+
+            return;
+        }
 
 
-                await setDoc(
-                    doc(
-                        db,
-                        "users",
-                        result.user.uid
-                    ),
-                    {
+        try {
 
-                        uid: result.user.uid,
+            registerButton.disabled = true;
 
-                        username: username,
+            registerButton.textContent =
+                "Oluşturuluyor...";
 
-                        email: email,
 
-                        bio: "",
-
-                        followers: 0,
-
-                        following: 0,
-
-                        posts: 0,
-
-                        createdAt:
-                            serverTimestamp()
-
-                    }
+            const result =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
                 );
 
 
-                message.style.color =
-                    "#3c8a67";
-
-                message.textContent =
-                    "Hesabın başarıyla oluşturuldu!";
-
-
-                setTimeout(
-                    () => {
-
-                        if (authOverlay) {
-
-                            authOverlay.classList.remove(
-                                "show"
-                            );
-
-                        }
-
-                    },
-                    1000
-                );
+            await setDoc(
+                doc(db, "users", result.user.uid),
+                {
+                    uid: result.user.uid,
+                    username: username,
+                    email: email,
+                    bio: "",
+                    followers: 0,
+                    following: 0,
+                    posts: 0,
+                    createdAt: serverTimestamp()
+                }
+            );
 
 
-            } catch (error) {
+            message.style.color =
+                "#3c8a67";
 
-                console.error(
-                    "Kayıt hatası:",
-                    error
-                );
-
-
-                message.style.color =
-                    "#d14b58";
+            message.textContent =
+                "Hesabın başarıyla oluşturuldu!";
 
 
-                if (
-                    error.code ===
-                    "auth/email-already-in-use"
-                ) {
+            setTimeout(() => {
 
-                    message.textContent =
-                        "Bu e-posta zaten kullanılıyor.";
-
-                } else if (
-                    error.code ===
-                    "auth/invalid-email"
-                ) {
-
-                    message.textContent =
-                        "Geçerli bir e-posta gir.";
-
-                } else if (
-                    error.code ===
-                    "auth/weak-password"
-                ) {
-
-                    message.textContent =
-                        "Şifre çok zayıf.";
-
-                } else {
-
-                    message.textContent =
-                        "Kayıt sırasında hata oluştu.";
-
+                if (authOverlay) {
+                    authOverlay.classList.remove("show");
                 }
 
+            }, 1000);
 
-            } finally {
 
-                registerButton.disabled =
-                    false;
+        } catch (error) {
 
-                registerButton.textContent =
-                    "Hesap Oluştur";
+            console.error("Kayıt hatası:", error);
+
+            message.style.color =
+                "#d14b58";
+
+
+            if (error.code === "auth/email-already-in-use") {
+
+                message.textContent =
+                    "Bu e-posta zaten kullanılıyor.";
+
+            } else if (error.code === "auth/invalid-email") {
+
+                message.textContent =
+                    "Geçerli bir e-posta gir.";
+
+            } else if (error.code === "auth/weak-password") {
+
+                message.textContent =
+                    "Şifre çok zayıf.";
+
+            } else {
+
+                message.textContent =
+                    "Kayıt sırasında hata oluştu.";
 
             }
 
+
+        } finally {
+
+            registerButton.disabled = false;
+
+            registerButton.textContent =
+                "Hesap Oluştur";
+
         }
-    );
+
+    });
 
 }
 
@@ -373,101 +292,145 @@ const loginButton =
 
 if (loginButton) {
 
-    loginButton.addEventListener(
-        "click",
-        async () => {
+    loginButton.addEventListener("click", async () => {
 
-            const email =
-                document
-                    .getElementById("loginEmail")
-                    .value
-                    .trim();
+        const email =
+            document.getElementById("loginEmail")
+                ?.value.trim();
 
-            const password =
-                document
-                    .getElementById("loginPassword")
-                    .value;
+        const password =
+            document.getElementById("loginPassword")
+                ?.value;
 
-            const message =
-                document.getElementById("loginMessage");
+        const message =
+            document.getElementById("loginMessage");
 
 
-            if (!email || !password) {
+        if (!email || !password) {
 
-                message.style.color =
-                    "#d14b58";
+            message.textContent =
+                "E-posta ve şifre gerekli.";
 
-                message.textContent =
-                    "E-posta ve şifre gerekli.";
+            message.style.color =
+                "#d14b58";
 
-                return;
-            }
-
-
-            try {
-
-                loginButton.disabled = true;
-
-                loginButton.textContent =
-                    "Giriş yapılıyor...";
+            return;
+        }
 
 
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
+        try {
+
+            loginButton.disabled = true;
+
+            loginButton.textContent =
+                "Giriş yapılıyor...";
 
 
-                message.style.color =
-                    "#3c8a67";
-
-                message.textContent =
-                    "Giriş başarılı!";
-
-
-                setTimeout(
-                    () => {
-
-                        if (authOverlay) {
-
-                            authOverlay.classList.remove(
-                                "show"
-                            );
-
-                        }
-
-                    },
-                    700
-                );
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
 
 
-            } catch (error) {
+            message.style.color =
+                "#3c8a67";
 
-                console.error(
-                    "Giriş hatası:",
-                    error
-                );
+            message.textContent =
+                "Giriş başarılı!";
 
 
-                message.style.color =
-                    "#d14b58";
+            setTimeout(() => {
 
-                message.textContent =
-                    "E-posta veya şifre hatalı.";
+                if (authOverlay) {
+                    authOverlay.classList.remove("show");
+                }
 
-            } finally {
+            }, 700);
 
-                loginButton.disabled =
-                    false;
 
-                loginButton.textContent =
-                    "Giriş Yap";
+        } catch (error) {
 
-            }
+            console.error("Giriş hatası:", error);
+
+            message.style.color =
+                "#d14b58";
+
+            message.textContent =
+                "E-posta veya şifre hatalı.";
+
+        } finally {
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "Giriş Yap";
 
         }
-    );
+
+    });
+
+}
+
+
+// ==================================================
+// PROFİLİ AÇ
+// ==================================================
+
+function openProfile() {
+
+    const appShell =
+        document.querySelector(".app-shell");
+
+    const profilePage =
+        document.getElementById("profilePage");
+
+
+    if (!profilePage) {
+
+        console.error(
+            "HATA: profilePage HTML içinde bulunamadı."
+        );
+
+        return;
+    }
+
+
+    if (appShell) {
+        appShell.style.display = "none";
+    }
+
+
+    profilePage.style.display = "block";
+
+    profilePage.classList.add("show");
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+// ==================================================
+// ANA MENÜ PROFİL
+// ==================================================
+
+const sidebarProfile =
+    document.getElementById("sidebarProfile");
+
+
+if (sidebarProfile) {
+
+    sidebarProfile.addEventListener("click", event => {
+
+        event.preventDefault();
+
+        openProfile();
+
+    });
 
 }
 
@@ -476,283 +439,196 @@ if (loginButton) {
 // FIREBASE OTURUM KONTROLÜ
 // ==================================================
 
-onAuthStateChanged(
-    auth,
-    async user => {
+onAuthStateChanged(auth, async user => {
 
-        const topRight =
-            document.querySelector(".top-right");
+    const topRight =
+        document.querySelector(".top-right");
 
 
-        if (!topRight) {
-            return;
-        }
-
-
-        if (user) {
-
-            let username =
-                user.email || "Kullanıcı";
-
-
-            try {
-
-                const userDoc =
-                    await getDoc(
-                        doc(
-                            db,
-                            "users",
-                            user.uid
-                        )
-                    );
-
-
-                if (userDoc.exists()) {
-
-                    const data =
-                        userDoc.data();
-
-
-                    username =
-                        data.username ||
-                        user.email;
-
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Profil bilgisi alınamadı:",
-                    error
-                );
-
-            }
-
-
-            // ==================================================
-            // GİRİŞ YAPMIŞ KULLANICI
-            // ==================================================
-
-            topRight.innerHTML = `
-
-                <span class="logged-user">
-                    @${username}
-                </span>
-
-                <button
-                    class="profile-button"
-                    id="topProfileButton"
-                >
-                    Profil
-                </button>
-
-                <button
-                    class="logout-button"
-                    id="logoutButton"
-                >
-                    Çıkış
-                </button>
-
-            `;
-
-
-            // ==================================================
-            // ÇIKIŞ
-            // ==================================================
-
-            const logoutButton =
-                document.getElementById(
-                    "logoutButton"
-                );
-
-
-            if (logoutButton) {
-
-                logoutButton.addEventListener(
-                    "click",
-                    async () => {
-
-                        try {
-
-                            await signOut(auth);
-
-                            location.reload();
-
-                        } catch (error) {
-
-                            console.error(
-                                "Çıkış hatası:",
-                                error
-                            );
-
-                        }
-
-                    }
-                );
-
-            }
-
-
-            // ==================================================
-            // ÜST PROFİL BUTONU
-            // ==================================================
-
-            const topProfileButton =
-                document.getElementById(
-                    "topProfileButton"
-                );
-
-
-            if (topProfileButton) {
-
-                topProfileButton.addEventListener(
-                    "click",
-                    () => {
-
-                        openProfile();
-
-                    }
-                );
-
-            }
-
-
-            // ==================================================
-            // PROFİL BİLGİLERİNİ DOLDUR
-            // ==================================================
-
-            loadProfile(
-                user,
-                username
-            );
-
-
-        } else {
-
-            // ==================================================
-            // ÇIKIŞ YAPMIŞ KULLANICI
-            // ==================================================
-
-            topRight.innerHTML = `
-
-                <button class="login-button">
-                    Giriş Yap
-                </button>
-
-                <button class="signup-button">
-                    Kayıt Ol
-                </button>
-
-            `;
-
-
-            const newLogin =
-                topRight.querySelector(
-                    ".login-button"
-                );
-
-            const newSignup =
-                topRight.querySelector(
-                    ".signup-button"
-                );
-
-
-            if (newLogin) {
-
-                newLogin.addEventListener(
-                    "click",
-                    openLogin
-                );
-
-            }
-
-
-            if (newSignup) {
-
-                newSignup.addEventListener(
-                    "click",
-                    openRegister
-                );
-
-            }
-
-        }
-
-    }
-);
-
-
-// ==================================================
-// PROFİL SAYFASI
-// ==================================================
-
-const sidebarProfile =
-    document.getElementById(
-        "sidebarProfile"
-    );
-
-
-function openProfile() {
-
-    const appShell =
-        document.querySelector(
-            ".app-shell"
-        );
-
-    const profilePage =
-        document.getElementById(
-            "profilePage"
-        );
-
-
-    if (!profilePage) {
-
-        console.error(
-            "profilePage bulunamadı."
-        );
-
+    if (!topRight) {
         return;
     }
 
 
-    if (appShell) {
+    if (user) {
 
-        appShell.style.display =
-            "none";
+        let username =
+            user.email || "Kullanıcı";
+
+
+        try {
+
+            const userDoc =
+                await getDoc(
+                    doc(db, "users", user.uid)
+                );
+
+
+            if (userDoc.exists()) {
+
+                const data =
+                    userDoc.data();
+
+                username =
+                    data.username ||
+                    user.email ||
+                    "Kullanıcı";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Profil bilgisi alınamadı:",
+                error
+            );
+
+        }
+
+
+        // ==================================================
+        // GİRİŞ YAPMIŞ KULLANICI
+        // ==================================================
+
+        topRight.innerHTML = `
+
+            <span class="logged-user">
+                @${username}
+            </span>
+
+            <button
+                class="profile-button"
+                id="topProfileButton"
+            >
+                Profil
+            </button>
+
+            <button
+                class="logout-button"
+                id="logoutButton"
+            >
+                Çıkış
+            </button>
+
+        `;
+
+
+        // ==================================================
+        // PROFİL BUTONU
+        // ==================================================
+
+        const topProfileButton =
+            document.getElementById(
+                "topProfileButton"
+            );
+
+
+        if (topProfileButton) {
+
+            topProfileButton.addEventListener(
+                "click",
+                openProfile
+            );
+
+        }
+
+
+        // ==================================================
+        // ÇIKIŞ
+        // ==================================================
+
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+
+        if (logoutButton) {
+
+            logoutButton.addEventListener(
+                "click",
+                async () => {
+
+                    try {
+
+                        await signOut(auth);
+
+                        location.reload();
+
+                    } catch (error) {
+
+                        console.error(
+                            "Çıkış hatası:",
+                            error
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        // ==================================================
+        // PROFİL BİLGİLERİNİ YÜKLE
+        // ==================================================
+
+        loadProfile(
+            user,
+            username
+        );
+
+
+    } else {
+
+        // ==================================================
+        // ÇIKIŞ YAPMIŞ
+        // ==================================================
+
+        topRight.innerHTML = `
+
+            <button class="login-button">
+                Giriş Yap
+            </button>
+
+            <button class="signup-button">
+                Kayıt Ol
+            </button>
+
+        `;
+
+
+        const newLogin =
+            topRight.querySelector(
+                ".login-button"
+            );
+
+
+        const newSignup =
+            topRight.querySelector(
+                ".signup-button"
+            );
+
+
+        if (newLogin) {
+            newLogin.addEventListener(
+                "click",
+                openLogin
+            );
+        }
+
+
+        if (newSignup) {
+            newSignup.addEventListener(
+                "click",
+                openRegister
+            );
+        }
 
     }
 
-
-    profilePage.style.display =
-        "block";
-
-    profilePage.classList.add(
-        "show"
-    );
-
-
-    window.scrollTo(
-        0,
-        0
-    );
-
-}
-
-
-if (sidebarProfile) {
-
-    sidebarProfile.addEventListener(
-        "click",
-        event => {
-
-            event.preventDefault();
-
-            openProfile();
-
-        }
-    );
-
-}
+});
 
 
 // ==================================================
@@ -781,18 +657,14 @@ async function loadProfile(
 
 
     if (profileName) {
-
         profileName.textContent =
             username;
-
     }
 
 
     if (profileUsername) {
-
         profileUsername.textContent =
             "@" + username;
-
     }
 
 
@@ -810,74 +682,69 @@ async function loadProfile(
 
         const userDoc =
             await getDoc(
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                )
+                doc(db, "users", user.uid)
             );
 
 
-        if (
-            userDoc.exists()
-        ) {
-
-            const data =
-                userDoc.data();
+        if (!userDoc.exists()) {
+            return;
+        }
 
 
-            const bio =
-                document.getElementById(
-                    "profileBio"
-                );
-
-            const followerCount =
-                document.getElementById(
-                    "followerCount"
-                );
-
-            const followingCount =
-                document.getElementById(
-                    "followingCount"
-                );
-
-            const postCount =
-                document.getElementById(
-                    "postCount"
-                );
+        const data =
+            userDoc.data();
 
 
-            if (bio) {
+        const profileBio =
+            document.getElementById(
+                "profileBio"
+            );
 
-                bio.textContent =
-                    data.bio ||
-                    "Henüz bir bio eklenmemiş.";
+        const followerCount =
+            document.getElementById(
+                "followerCount"
+            );
 
-            }
+        const followingCount =
+            document.getElementById(
+                "followingCount"
+            );
 
-
-            if (followerCount) {
-
-                followerCount.textContent =
-                    data.followers || 0;
-
-            }
-
-
-            if (followingCount) {
-
-                followingCount.textContent =
-                    data.following || 0;
-
-            }
+        const postCount =
+            document.getElementById(
+                "postCount"
+            );
 
 
-            if (postCount) {
+        if (profileBio) {
 
-                postCount.textContent =
-                    data.posts || 0;
+            profileBio.textContent =
+                data.bio ||
+                "Henüz bir bio eklenmemiş.";
 
-            }
+        }
+
+
+        if (followerCount) {
+
+            followerCount.textContent =
+                data.followers || 0;
+
+        }
+
+
+        if (followingCount) {
+
+            followingCount.textContent =
+                data.following || 0;
+
+        }
+
+
+        if (postCount) {
+
+            postCount.textContent =
+                data.posts || 0;
 
         }
 
@@ -903,48 +770,46 @@ const likeButtons =
     );
 
 
-likeButtons.forEach(
-    button => {
+likeButtons.forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+    button.addEventListener("click", () => {
 
-                const icon =
-                    button.querySelector(
-                        "span"
-                    );
+        const icon =
+            button.querySelector("span");
 
 
-                if (
-                    button.classList.contains(
-                        "liked-post"
-                    )
-                ) {
+        if (!icon) {
+            return;
+        }
 
-                    button.classList.remove(
-                        "liked-post"
-                    );
 
-                    icon.textContent =
-                        "♡";
+        if (
+            button.classList.contains(
+                "liked-post"
+            )
+        ) {
 
-                } else {
+            button.classList.remove(
+                "liked-post"
+            );
 
-                    button.classList.add(
-                        "liked-post"
-                    );
+            icon.textContent =
+                "♡";
 
-                    icon.textContent =
-                        "♥";
+        } else {
 
-                }
+            button.classList.add(
+                "liked-post"
+            );
 
-            }
-        );
+            icon.textContent =
+                "♥";
 
-    }
-);
+        }
+
+    });
+
+});
 
 
 // ==================================================
@@ -957,45 +822,40 @@ const followButtons =
     );
 
 
-followButtons.forEach(
-    button => {
+followButtons.forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+    button.addEventListener("click", () => {
 
-                if (
-                    button.textContent.trim() ===
-                    "Takip"
-                ) {
+        if (
+            button.textContent.trim() ===
+            "Takip"
+        ) {
 
-                    button.textContent =
-                        "Takiptesin";
+            button.textContent =
+                "Takiptesin";
 
-                    button.style.background =
-                        "#eeeeff";
+            button.style.background =
+                "#eeeeff";
 
-                    button.style.color =
-                        "#5b5ce2";
+            button.style.color =
+                "#5b5ce2";
 
-                } else {
+        } else {
 
-                    button.textContent =
-                        "Takip";
+            button.textContent =
+                "Takip";
 
-                    button.style.background =
-                        "#15171a";
+            button.style.background =
+                "#15171a";
 
-                    button.style.color =
-                        "white";
+            button.style.color =
+                "white";
 
-                }
+        }
 
-            }
-        );
+    });
 
-    }
-);
+});
 
 
 // ==================================================
@@ -1014,10 +874,7 @@ if (searchInput) {
         "keydown",
         event => {
 
-            if (
-                event.key ===
-                "Enter"
-            ) {
+            if (event.key === "Enter") {
 
                 const value =
                     searchInput.value.trim();
@@ -1060,8 +917,17 @@ if (publishButton) {
         "click",
         () => {
 
+            if (!auth.currentUser) {
+
+                alert(
+                    "Gönderi paylaşmak için önce giriş yapmalısın."
+                );
+
+                return;
+            }
+
             alert(
-                "Gönderi paylaşmak için önce giriş yapmalısın."
+                "Gönderi sistemi sonraki aşamada aktif edilecek."
             );
 
         }
@@ -1076,14 +942,23 @@ if (composerInput) {
         "click",
         () => {
 
+            if (!auth.currentUser) {
+
+                alert(
+                    "Gönderi paylaşmak için önce giriş yapmalısın."
+                );
+
+                return;
+            }
+
             alert(
-                "Gönderi paylaşmak için önce giriş yapmalısın."
+                "Gönderi sistemi sonraki aşamada aktif edilecek."
             );
 
         }
     );
 
 }
-```
+
 
 });
