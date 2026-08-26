@@ -374,24 +374,130 @@ document.addEventListener("DOMContentLoaded", () => {
     // FIREBASE USER
     // =========================
 
-    onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, async user => {
 
-        if (user) {
+    const topRight =
+        document.querySelector(".top-right");
 
-            console.log(
-                "ARKİLER giriş yaptı:",
-                user.email
+    if (!topRight) return;
+
+
+    if (user) {
+
+        let username = user.email;
+
+        try {
+
+            const userDoc = await getDoc(
+                doc(db, "users", user.uid)
             );
 
-        } else {
+            if (userDoc.exists()) {
 
-            console.log(
-                "ARKİLER: giriş yapılmadı."
-            );
+                username =
+                    userDoc.data().username ||
+                    user.email;
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
 
         }
 
-    });
+
+        topRight.innerHTML = `
+
+            <span class="logged-user">
+                @${username}
+            </span>
+
+            <button class="profile-button">
+                Profil
+            </button>
+
+            <button class="logout-button">
+                Çıkış
+            </button>
+
+        `;
+
+
+        const logoutButton =
+            document.querySelector(".logout-button");
+
+
+        logoutButton.addEventListener(
+            "click",
+            async () => {
+
+                await signOut(auth);
+
+                location.reload();
+
+            }
+        );
+
+
+        console.log(
+            "ARKİLER giriş yaptı:",
+            username
+        );
+
+
+    } else {
+
+        topRight.innerHTML = `
+
+            <button class="login-button">
+                Giriş Yap
+            </button>
+
+            <button class="signup-button">
+                Kayıt Ol
+            </button>
+
+        `;
+
+
+        const newLogin =
+            document.querySelector(".login-button");
+
+        const newSignup =
+            document.querySelector(".signup-button");
+
+
+        newLogin.addEventListener(
+            "click",
+            () => {
+
+                loginForm.classList.remove("hidden");
+
+                registerForm.classList.add("hidden");
+
+                authOverlay.classList.add("show");
+
+            }
+        );
+
+
+        newSignup.addEventListener(
+            "click",
+            () => {
+
+                loginForm.classList.add("hidden");
+
+                registerForm.classList.remove("hidden");
+
+                authOverlay.classList.add("show");
+
+            }
+        );
+
+    }
+
+});
 
 
     // =========================
