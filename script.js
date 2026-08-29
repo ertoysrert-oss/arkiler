@@ -897,44 +897,324 @@ if (searchInput) {
 
 
 // ==================================================
-// GÖNDERİ
+// GÖNDERİ OLUŞTURMA
 // ==================================================
 
 const publishButton =
-    document.querySelector(
-        ".publish-button"
-    );
+    document.querySelector(".publish-button");
 
 const composerInput =
-    document.querySelector(
-        ".composer-input"
+    document.querySelector(".composer-input");
+
+const postOverlay =
+    document.getElementById("postOverlay");
+
+const postClose =
+    document.getElementById("postClose");
+
+const postText =
+    document.getElementById("postText");
+
+const postSubmitButton =
+    document.getElementById("postSubmitButton");
+
+const postMessage =
+    document.getElementById("postMessage");
+
+const postCharCount =
+    document.getElementById("postCharCount");
+
+const postModalUser =
+    document.getElementById("postModalUser");
+
+
+// ==================================================
+// GÖNDERİ PENCERESİNİ AÇ
+// ==================================================
+
+function openPostModal() {
+
+    if (!auth.currentUser) {
+
+        openLogin();
+
+        return;
+    }
+
+    if (!postOverlay) return;
+
+    postOverlay.classList.add("show");
+
+    postText.value = "";
+
+    postMessage.textContent = "";
+
+    postCharCount.textContent = "0 / 1000";
+
+    const currentUser =
+        auth.currentUser;
+
+    postModalUser.textContent =
+        currentUser.email || "@kullanıcı";
+
+    setTimeout(() => {
+
+        postText.focus();
+
+    }, 100);
+
+}
+
+
+// ==================================================
+// PENCEREYİ KAPAT
+// ==================================================
+
+function closePostModal() {
+
+    if (!postOverlay) return;
+
+    postOverlay.classList.remove("show");
+
+}
+
+
+// ==================================================
+// COMPOSER TIKLAMA
+// ==================================================
+
+if (composerInput) {
+
+    composerInput.addEventListener(
+        "click",
+        openPostModal
     );
 
+}
+
+
+// ==================================================
+// PAYLAŞ BUTONU
+// ==================================================
 
 if (publishButton) {
 
     publishButton.addEventListener(
         "click",
-        () => {
+        openPostModal
+    );
 
-            if (!auth.currentUser) {
+}
 
-                alert(
-                    "Gönderi paylaşmak için önce giriş yapmalısın."
-                );
 
-                return;
+// ==================================================
+// KAPAT
+// ==================================================
+
+if (postClose) {
+
+    postClose.addEventListener(
+        "click",
+        closePostModal
+    );
+
+}
+
+
+if (postOverlay) {
+
+    postOverlay.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === postOverlay
+            ) {
+
+                closePostModal();
+
             }
-
-            alert(
-                "Gönderi sistemi sonraki aşamada aktif edilecek."
-            );
 
         }
     );
 
 }
 
+
+// ==================================================
+// KARAKTER SAYACI
+// ==================================================
+
+if (postText) {
+
+    postText.addEventListener(
+        "input",
+        () => {
+
+            postCharCount.textContent =
+                `${postText.value.length} / 1000`;
+
+        }
+    );
+
+}
+
+
+// ==================================================
+// GÖNDERİYİ FIRESTORE'A KAYDET
+// ==================================================
+
+if (postSubmitButton) {
+
+    postSubmitButton.addEventListener(
+        "click",
+        async () => {
+
+            const text =
+                postText.value.trim();
+
+
+            if (!auth.currentUser) {
+
+                postMessage.textContent =
+                    "Gönderi paylaşmak için giriş yapmalısın.";
+
+                return;
+
+            }
+
+
+            if (!text) {
+
+                postMessage.textContent =
+                    "Gönderi metni boş olamaz.";
+
+                return;
+
+            }
+
+
+            try {
+
+                postSubmitButton.disabled =
+                    true;
+
+                postSubmitButton.textContent =
+                    "Paylaşılıyor...";
+
+
+                const user =
+                    auth.currentUser;
+
+
+                const userDoc =
+                    await getDoc(
+                        doc(
+                            db,
+                            "users",
+                            user.uid
+                        )
+                    );
+
+
+                let username =
+                    user.email || "Kullanıcı";
+
+
+                if (userDoc.exists()) {
+
+                    const data =
+                        userDoc.data();
+
+                    username =
+                        data.username ||
+                        username;
+
+                }
+
+
+                // Şimdilik benzersiz gönderi ID'si
+                const postId =
+                    crypto.randomUUID();
+
+
+                await setDoc(
+                    doc(
+                        db,
+                        "posts",
+                        postId
+                    ),
+                    {
+
+                        postId: postId,
+
+                        uid: user.uid,
+
+                        username: username,
+
+                        text: text,
+
+                        likes: 0,
+
+                        comments: 0,
+
+                        createdAt:
+                            serverTimestamp()
+
+                    }
+                );
+
+
+                postMessage.style.color =
+                    "#3c8a67";
+
+                postMessage.textContent =
+                    "Gönderin başarıyla paylaşıldı!";
+
+
+                postText.value = "";
+
+                postCharCount.textContent =
+                    "0 / 1000";
+
+
+                setTimeout(
+                    () => {
+
+                        closePostModal();
+
+                    },
+                    800
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Gönderi paylaşma hatası:",
+                    error
+                );
+
+                postMessage.style.color =
+                    "#d14b58";
+
+                postMessage.textContent =
+                    "Gönderi paylaşılırken hata oluştu.";
+
+            } finally {
+
+                postSubmitButton.disabled =
+                    false;
+
+                postSubmitButton.textContent =
+                    "Paylaş";
+
+            }
+
+        }
+    );
+
+}
 
 if (composerInput) {
 
