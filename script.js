@@ -8,10 +8,14 @@ signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
-doc,
-setDoc,
-getDoc,
-serverTimestamp
+    doc,
+    setDoc,
+    getDoc,
+    serverTimestamp,
+    collection,
+    query,
+    orderBy,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1550,3 +1554,57 @@ saveProfileButton.addEventListener(
 
 
 }
+
+// ==================================================
+// FIREBASE GÖNDERİLERİNİ YÜKLE
+// ==================================================
+
+function loadPosts() {
+
+    const feed = document.querySelector(".feed");
+
+    if (!feed) return;
+
+    const postsQuery = query(
+        collection(db, "posts"),
+        orderBy("createdAt", "desc")
+    );
+
+    onSnapshot(
+        postsQuery,
+        snapshot => {
+
+            snapshot.forEach(docSnapshot => {
+
+                const data = docSnapshot.data();
+
+                console.log(
+                    "Firebase gönderisi:",
+                    data
+                );
+
+            });
+
+        },
+        error => {
+
+            console.error(
+                "Gönderiler yüklenemedi:",
+                error
+            );
+
+        }
+    );
+}
+
+
+// Kullanıcı oturumu açıldıktan sonra gönderileri yükle
+onAuthStateChanged(auth, user => {
+
+    if (user) {
+
+        loadPosts();
+
+    }
+
+});
