@@ -1298,10 +1298,57 @@
 
 </div>
 
+<!-- =========================
+     CREATE POST MODAL
+========================= -->
 
+<div class="post-overlay" id="postOverlay">
+
+    <div class="post-modal">
+
+        <button class="post-close" id="postClose">
+            ×
+        </button>
+
+        <h2>Yeni gönderi</h2>
+
+        <p class="post-modal-user" id="postModalUser">
+            @kullanıcı
+        </p>
+
+        <textarea
+            id="postText"
+            placeholder="Ne düşünüyorsun?"
+            maxlength="1000"
+        ></textarea>
+
+        <div class="post-modal-bottom">
+
+            <span id="postCharCount">
+                0 / 1000
+            </span>
+
+            <button
+                class="post-submit-button"
+                id="postSubmitButton"
+            >
+                Paylaş
+            </button>
+
+        </div>
+
+        <p
+            class="post-message"
+            id="postMessage"
+        ></p>
+
+    </div>
+
+</div>
 
 <!-- JAVASCRIPT -->
 
+    
 <script
     type="module"
     src="script.js"
