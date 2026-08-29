@@ -1328,7 +1328,7 @@ if (postSubmitButton) {
 
 
 
-});
+
 
 /* ==================================================
 PROFİL DÜZENLEME
@@ -1881,3 +1881,5 @@ onAuthStateChanged(
 
     }
 );
+
+                          });
