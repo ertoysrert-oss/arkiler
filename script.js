@@ -1556,7 +1556,7 @@ saveProfileButton.addEventListener(
 }
 
 // ==================================================
-// FIREBASE GÖNDERİLERİNİ YÜKLE
+// FIREBASE GÖNDERİLERİNİ ANA AKIŞTA GÖSTER
 // ==================================================
 
 function loadPosts() {
@@ -1574,18 +1574,202 @@ function loadPosts() {
         postsQuery,
         snapshot => {
 
+            // Eski Firebase gönderilerini temizle
+            document
+                .querySelectorAll(".firebase-post")
+                .forEach(post => post.remove());
+
+
             snapshot.forEach(docSnapshot => {
 
-                const data = docSnapshot.data();
+                const data =
+                    docSnapshot.data();
 
-                console.log(
-                    "Firebase gönderisi:",
-                    data
-                );
+                const post =
+                    document.createElement("article");
+
+                post.className =
+                    "post firebase-post";
+
+
+                const username =
+                    data.username ||
+                    "Kullanıcı";
+
+
+                const text =
+                    data.text ||
+                    "";
+
+
+                post.innerHTML = `
+
+                    <div class="post-header">
+
+                        <div class="post-avatar avatar-1">
+
+                            ${username
+                                .charAt(0)
+                                .toUpperCase()}
+
+                        </div>
+
+
+                        <div class="post-author">
+
+                            <strong>
+                                ${username}
+                            </strong>
+
+                            <span>
+                                @${username}
+                            </span>
+
+                        </div>
+
+
+                        <button class="post-menu">
+                            ···
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-body">
+
+                        <p>
+                            ${text}
+                        </p>
+
+                    </div>
+
+
+                    <div class="post-meta">
+
+                        <div>
+
+                            <span class="liked">
+                                ♥
+                            </span>
+
+                            <span>
+                                0
+                            </span>
+
+                        </div>
+
+
+                        <span>
+                            0 yorum
+                        </span>
+
+                    </div>
+
+
+                    <div class="post-actions">
+
+                        <button class="action like-action">
+
+                            <span>
+                                ♡
+                            </span>
+
+                            Beğen
+
+                        </button>
+
+
+                        <button class="action">
+
+                            <span>
+                                ◯
+                            </span>
+
+                            Yorum
+
+                        </button>
+
+
+                        <button class="action">
+
+                            <span>
+                                ↗
+                            </span>
+
+                            Paylaş
+
+                        </button>
+
+
+                        <button class="action save-action">
+
+                            <span>
+                                ⌑
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                feed.appendChild(post);
+
+
+                // BEĞENİ BUTONU
+
+                const likeButton =
+                    post.querySelector(
+                        ".like-action"
+                    );
+
+
+                if (likeButton) {
+
+                    likeButton.addEventListener(
+                        "click",
+                        () => {
+
+                            const icon =
+                                likeButton.querySelector(
+                                    "span"
+                                );
+
+
+                            if (
+                                likeButton.classList.contains(
+                                    "liked-post"
+                                )
+                            ) {
+
+                                likeButton.classList.remove(
+                                    "liked-post"
+                                );
+
+                                icon.textContent =
+                                    "♡";
+
+                            } else {
+
+                                likeButton.classList.add(
+                                    "liked-post"
+                                );
+
+                                icon.textContent =
+                                    "♥";
+
+                            }
+
+                        }
+                    );
+
+                }
 
             });
 
         },
+
         error => {
 
             console.error(
@@ -1595,16 +1779,23 @@ function loadPosts() {
 
         }
     );
+
 }
 
 
-// Kullanıcı oturumu açıldıktan sonra gönderileri yükle
-onAuthStateChanged(auth, user => {
+// ==================================================
+// GİRİŞ YAPILDIĞINDA GÖNDERİLERİ YÜKLE
+// ==================================================
 
-    if (user) {
+onAuthStateChanged(
+    auth,
+    user => {
 
-        loadPosts();
+        if (user) {
+
+            loadPosts();
+
+        }
 
     }
-
-});
+);
