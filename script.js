@@ -11,6 +11,7 @@ import {
     doc,
     setDoc,
     getDoc,
+    deleteDoc,
     serverTimestamp,
     collection,
     query,
@@ -765,33 +766,80 @@ async function loadProfile(
 
 
 // ==================================================
-// BEĞENİ
+// GERÇEK BEĞENİ SİSTEMİ
 // ==================================================
 
-const likeButtons =
-    document.querySelectorAll(
-        ".like-action"
-    );
+async function toggleLike(button) {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+
+        openLogin();
+
+        return;
+    }
 
 
-likeButtons.forEach(button => {
+    const postElement =
+        button.closest(".post");
 
-    button.addEventListener("click", () => {
-
-        const icon =
-            button.querySelector("span");
+    if (!postElement) return;
 
 
-        if (!icon) {
-            return;
-        }
+    const postId =
+        postElement.dataset.postId;
+
+    if (!postId) {
+
+        console.error(
+            "Gönderi ID bulunamadı."
+        );
+
+        return;
+    }
 
 
-        if (
-            button.classList.contains(
-                "liked-post"
-            )
-        ) {
+    const icon =
+        button.querySelector("span");
+
+
+    const countElement =
+        postElement.querySelector(
+            ".like-count"
+        );
+
+
+    if (!icon) return;
+
+
+    // Her kullanıcı + gönderi için benzersiz ID
+    const likeId =
+        `${user.uid}_${postId}`;
+
+
+    const likeRef =
+        doc(
+            db,
+            "likes",
+            likeId
+        );
+
+
+    try {
+
+        const likeDoc =
+            await getDoc(likeRef);
+
+
+        if (likeDoc.exists()) {
+
+            // =========================
+            // BEĞENİYİ KALDIR
+            // =========================
+
+            await deleteDoc(likeRef);
+
 
             button.classList.remove(
                 "liked-post"
@@ -800,7 +848,45 @@ likeButtons.forEach(button => {
             icon.textContent =
                 "♡";
 
+
+            if (countElement) {
+
+                const currentCount =
+                    parseInt(
+                        countElement.textContent
+                    ) || 0;
+
+                countElement.textContent =
+                    Math.max(
+                        0,
+                        currentCount - 1
+                    );
+
+            }
+
+
         } else {
+
+            // =========================
+            // BEĞEN
+            // =========================
+
+            await setDoc(
+                likeRef,
+                {
+
+                    uid:
+                        user.uid,
+
+                    postId:
+                        postId,
+
+                    createdAt:
+                        serverTimestamp()
+
+                }
+            );
+
 
             button.classList.add(
                 "liked-post"
@@ -809,11 +895,31 @@ likeButtons.forEach(button => {
             icon.textContent =
                 "♥";
 
+
+            if (countElement) {
+
+                const currentCount =
+                    parseInt(
+                        countElement.textContent
+                    ) || 0;
+
+                countElement.textContent =
+                    currentCount + 1;
+
+            }
+
         }
 
-    });
+    } catch (error) {
 
-});
+        console.error(
+            "Beğeni işlemi başarısız:",
+            error
+        );
+
+    }
+
+}
 
 
 // ==================================================
