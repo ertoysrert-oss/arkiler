@@ -1216,29 +1216,6 @@ if (postSubmitButton) {
 
 }
 
-if (composerInput) {
-
-    composerInput.addEventListener(
-        "click",
-        () => {
-
-            if (!auth.currentUser) {
-
-                alert(
-                    "Gönderi paylaşmak için önce giriş yapmalısın."
-                );
-
-                return;
-            }
-
-            alert(
-                "Gönderi sistemi sonraki aşamada aktif edilecek."
-            );
-
-        }
-    );
-
-}
 
 
 });
