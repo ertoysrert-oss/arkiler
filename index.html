@@ -966,9 +966,9 @@
 
         </div>
 
-        <button class="edit-profile-button">
-            Profili Düzenle
-        </button>
+       <button class="edit-profile-button" id="editProfileButton">
+    Profili Düzenle
+</button>
 
     </div>
 
@@ -1040,7 +1040,66 @@
 
 </section>
 
+<!-- ==================================================
+     PROFILE EDIT MODAL
+================================================== -->
 
+<div class="profile-edit-overlay" id="profileEditOverlay">
+
+```
+<div class="profile-edit-modal">
+
+    <button
+        class="profile-edit-close"
+        id="profileEditClose"
+    >
+        ×
+    </button>
+
+    <h2>Profili Düzenle</h2>
+
+    <p class="profile-edit-description">
+        Profil bilgilerini güncelle.
+    </p>
+
+    <label for="editUsername">
+        Kullanıcı adı
+    </label>
+
+    <input
+        type="text"
+        id="editUsername"
+        placeholder="Kullanıcı adın"
+    >
+
+    <label for="editBio">
+        Bio
+    </label>
+
+    <textarea
+        id="editBio"
+        placeholder="Kendinden biraz bahset..."
+        rows="4"
+    ></textarea>
+
+    <button
+        class="profile-save-button"
+        id="saveProfileButton"
+    >
+        Değişiklikleri Kaydet
+    </button>
+
+    <p
+        class="profile-edit-message"
+        id="profileEditMessage"
+    ></p>
+
+</div>
+```
+
+</div>
+
+    
 <!-- ==================================================
      AUTH MODAL
 ================================================== -->
