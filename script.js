@@ -962,3 +962,334 @@ if (composerInput) {
 
 
 });
+
+/* ==================================================
+PROFİL DÜZENLEME
+================================================== */
+
+const editProfileButton =
+document.getElementById("editProfileButton");
+
+const profileEditOverlay =
+document.getElementById("profileEditOverlay");
+
+const profileEditClose =
+document.getElementById("profileEditClose");
+
+const saveProfileButton =
+document.getElementById("saveProfileButton");
+
+const editUsername =
+document.getElementById("editUsername");
+
+const editBio =
+document.getElementById("editBio");
+
+const profileEditMessage =
+document.getElementById("profileEditMessage");
+
+/* ==================================================
+PROFİL DÜZENLEMEYİ AÇ
+================================================== */
+
+if (editProfileButton) {
+
+
+editProfileButton.addEventListener("click", async () => {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+
+        alert(
+            "Profili düzenlemek için önce giriş yapmalısın."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const userDoc =
+            await getDoc(
+                doc(db, "users", user.uid)
+            );
+
+
+        if (userDoc.exists()) {
+
+            const data =
+                userDoc.data();
+
+
+            if (editUsername) {
+
+                editUsername.value =
+                    data.username || "";
+
+            }
+
+
+            if (editBio) {
+
+                editBio.value =
+                    data.bio || "";
+
+            }
+
+        }
+
+
+        if (profileEditMessage) {
+
+            profileEditMessage.textContent = "";
+
+        }
+
+
+        if (profileEditOverlay) {
+
+            profileEditOverlay.classList.add("show");
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Profil düzenleme verisi alınamadı:",
+            error
+        );
+
+    }
+
+});
+
+
+}
+
+/* ==================================================
+MODAL KAPAT
+================================================== */
+
+if (profileEditClose) {
+
+
+profileEditClose.addEventListener("click", () => {
+
+    if (profileEditOverlay) {
+
+        profileEditOverlay.classList.remove("show");
+
+    }
+
+});
+
+
+}
+
+if (profileEditOverlay) {
+
+
+profileEditOverlay.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === profileEditOverlay) {
+
+            profileEditOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+}
+
+/* ==================================================
+PROFİLİ KAYDET
+================================================== */
+
+if (saveProfileButton) {
+
+
+saveProfileButton.addEventListener(
+    "click",
+    async () => {
+
+        const user = auth.currentUser;
+
+        if (!user) {
+
+            profileEditMessage.textContent =
+                "Oturum bulunamadı.";
+
+            return;
+        }
+
+
+        const newUsername =
+            editUsername.value.trim();
+
+        const newBio =
+            editBio.value.trim();
+
+
+        if (!newUsername) {
+
+            profileEditMessage.style.color =
+                "#d14b58";
+
+            profileEditMessage.textContent =
+                "Kullanıcı adı boş bırakılamaz.";
+
+            return;
+        }
+
+
+        try {
+
+            saveProfileButton.disabled = true;
+
+            saveProfileButton.textContent =
+                "Kaydediliyor...";
+
+
+            await setDoc(
+                doc(db, "users", user.uid),
+                {
+                    username: newUsername,
+                    bio: newBio
+                },
+                {
+                    merge: true
+                }
+            );
+
+
+            /* PROFİLİ EKRANDA HEMEN GÜNCELLE */
+
+            const profileName =
+                document.getElementById(
+                    "profileName"
+                );
+
+            const profileUsername =
+                document.getElementById(
+                    "profileUsername"
+                );
+
+            const profileBio =
+                document.getElementById(
+                    "profileBio"
+                );
+
+            const profileAvatar =
+                document.getElementById(
+                    "profileAvatar"
+                );
+
+
+            if (profileName) {
+
+                profileName.textContent =
+                    newUsername;
+
+            }
+
+
+            if (profileUsername) {
+
+                profileUsername.textContent =
+                    "@" + newUsername;
+
+            }
+
+
+            if (profileBio) {
+
+                profileBio.textContent =
+                    newBio ||
+                    "Henüz bir bio eklenmemiş.";
+
+            }
+
+
+            if (profileAvatar) {
+
+                profileAvatar.textContent =
+                    newUsername
+                        .charAt(0)
+                        .toUpperCase();
+
+            }
+
+
+            /* ÜSTTEKİ KULLANICI ADINI DA GÜNCELLE */
+
+            const loggedUser =
+                document.querySelector(
+                    ".logged-user"
+                );
+
+
+            if (loggedUser) {
+
+                loggedUser.textContent =
+                    "@" + newUsername;
+
+            }
+
+
+            profileEditMessage.style.color =
+                "#3c8a67";
+
+            profileEditMessage.textContent =
+                "Profil başarıyla güncellendi!";
+
+
+            setTimeout(() => {
+
+                if (profileEditOverlay) {
+
+                    profileEditOverlay.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }, 900);
+
+
+        } catch (error) {
+
+            console.error(
+                "Profil güncelleme hatası:",
+                error
+            );
+
+
+            profileEditMessage.style.color =
+                "#d14b58";
+
+            profileEditMessage.textContent =
+                "Profil güncellenirken hata oluştu.";
+
+        } finally {
+
+            saveProfileButton.disabled =
+                false;
+
+            saveProfileButton.textContent =
+                "Değişiklikleri Kaydet";
+
+        }
+
+    }
+);
+
+
+}
