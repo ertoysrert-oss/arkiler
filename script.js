@@ -1697,6 +1697,8 @@ function loadPosts() {
                 post.className =
                     "post firebase-post";
 
+                post.dataset.postId =
+    docSnapshot.id;
 
                 const username =
                     data.username ||
@@ -1758,9 +1760,9 @@ function loadPosts() {
                                 ♥
                             </span>
 
-                            <span>
-                                0
-                            </span>
+                           <span class="like-count">
+    0
+</span>
 
                         </div>
 
@@ -1823,55 +1825,30 @@ function loadPosts() {
                 feed.appendChild(post);
 
 
-                // BEĞENİ BUTONU
+              // ==================================================
+// GERÇEK BEĞENİ BUTONU
+// ==================================================
 
-                const likeButton =
-                    post.querySelector(
-                        ".like-action"
-                    );
+const likeButton =
+    post.querySelector(
+        ".like-action"
+    );
 
+if (likeButton) {
 
-                if (likeButton) {
+    likeButton.addEventListener(
+        "click",
+        () => {
 
-                    likeButton.addEventListener(
-                        "click",
-                        () => {
+            toggleLike(
+                likeButton,
+                postId
+            );
 
-                            const icon =
-                                likeButton.querySelector(
-                                    "span"
-                                );
+        }
+    );
 
-
-                            if (
-                                likeButton.classList.contains(
-                                    "liked-post"
-                                )
-                            ) {
-
-                                likeButton.classList.remove(
-                                    "liked-post"
-                                );
-
-                                icon.textContent =
-                                    "♡";
-
-                            } else {
-
-                                likeButton.classList.add(
-                                    "liked-post"
-                                );
-
-                                icon.textContent =
-                                    "♥";
-
-                            }
-
-                        }
-                    );
-
-                }
-
+}
             });
 
         },
