@@ -1825,7 +1825,7 @@ function loadPosts() {
                 feed.appendChild(post);
 
 
-              // ==================================================
+  // ==================================================
 // GERÇEK BEĞENİ BUTONU
 // ==================================================
 
@@ -1841,8 +1841,7 @@ if (likeButton) {
         () => {
 
             toggleLike(
-                likeButton,
-                postId
+                likeButton
             );
 
         }
